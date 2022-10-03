@@ -1,16 +1,13 @@
-import * as express from 'express';
-import { Message } from '@fanpower/api-interfaces';
-
-const app = express();
-
-const greeting: Message = { message: 'Welcome to api!' };
-
-app.get('/api', (req, res) => {
-  res.send(greeting);
-});
+import 'reflect-metadata';
+import { Server } from './server';
 
 const port = process.env.port || 3333;
-const server = app.listen(port, () => {
-  console.log('Listening at http://localhost:' + port + '/api');
-});
-server.on('error', console.error);
+
+const server = new Server()
+  .start(port)
+  .then((port) => console.log(`Running on localhost:${port}`))
+  .catch((error) => {
+    console.log(error);
+  });
+
+export default server;
