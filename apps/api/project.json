@@ -12,7 +12,8 @@
         "outputPath": "dist/apps/api",
         "main": "apps/api/src/main.ts",
         "tsConfig": "apps/api/tsconfig.app.json",
-        "assets": ["apps/api/src/assets"]
+        "assets": ["apps/api/src/assets"],
+        "webpackConfig": "./apps/api/webpack-custom.config.js"
       },
       "configurations": {
         "production": {
@@ -21,8 +22,20 @@
           "inspect": false,
           "fileReplacements": [
             {
-              "replace": "apps/api/src/environments/environment.ts",
-              "with": "apps/api/src/environments/environment.prod.ts"
+              "replace": "apps/api/src/environments/env.ts",
+              "with": "apps/api/src/environments/env.prod.ts"
+            }
+          ]
+        },
+        "local": {
+          "optimization": true,
+          "extractLicenses": true,
+          "sourceMap": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/api/src/environments/env.ts",
+              "with": "apps/api/src/environments/env.local.ts"
             }
           ]
         }
@@ -36,6 +49,9 @@
       "configurations": {
         "production": {
           "buildTarget": "api:build:production"
+        },
+        "local": {
+          "buildTarget": "api:build:local"
         }
       }
     },
@@ -52,6 +68,27 @@
       "options": {
         "jestConfig": "apps/api/jest.config.ts",
         "passWithNoTests": true
+      }
+    },
+    "pg-up": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["docker-compose up --build -d"],
+        "cwd": "./apps/api/src/docker"
+      }
+    },
+    "pg-down": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["docker-compose down"],
+        "cwd": "./apps/api/src/docker"
+      }
+    },
+    "pg-init": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [ "ts-node db-init.ts"],
+        "cwd": "./apps/api/src/app/services/postgres"
       }
     }
   },

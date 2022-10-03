@@ -1,4 +1,11 @@
 {
+  "ts-node": {
+    "require": ["tsconfig-paths/register"],
+    "compilerOptions": {
+      "target": "es2020",
+      "module": "commonjs"
+    }
+  },
   "compileOnSave": false,
   "compilerOptions": {
     "rootDir": ".",

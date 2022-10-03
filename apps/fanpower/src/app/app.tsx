@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Message } from '@fanpower/api-interfaces';
 
 export const App = () => {
-  const [m, setMessage] = useState<Message>({ message: '' });
+  const [m, setMessage] = useState<any>({ message: '' });
 
   useEffect(() => {
     fetch('/api')
