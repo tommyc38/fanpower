@@ -4,6 +4,7 @@ import App from './app';
 
 describe('App', () => {
   afterEach(() => {
+    // @ts-ignore
     delete global['fetch'];
     cleanup();
   });

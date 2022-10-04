@@ -35,6 +35,7 @@ export class GameCreateRequest implements Partial<Pick<Game, 'name'>> {
   name?: string;
 }
 
+export type GameCreateResponse = Game;
 export type GameFramesResponse = Frame[];
 export type GamePlayersResponse = Player[];
 
@@ -72,6 +73,8 @@ export class GameUpdateRequest implements Partial<Pick<Game, 'status'>> {
   @IsIn(gameStatus)
   status: GameStatus;
 }
+
+export type GameUpdateResponse = Game;
 
 export class GameFrameUpdateRequest implements Pick<Frame, 'scoreOne' | 'scoreTwo' | 'scoreThree'> {
   @IsOptional()

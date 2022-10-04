@@ -101,19 +101,19 @@ export class PostgresService {
   } {
     let score;
     let scorePosition;
-    if (scoreOne) {
+    if (typeof scoreOne === 'number') {
       score = scoreOne;
       scorePosition = 1;
     }
-    if (scoreTwo) {
+    if (typeof scoreTwo === 'number') {
       score = scoreTwo;
       scorePosition = 2;
     }
-    if (scoreThree) {
+    if (typeof scoreThree === 'number') {
       score = scoreThree;
       scorePosition = 3;
     }
-    if (!score) throw new HttpException(Code.BAD_REQUEST, { message: 'You must supply a score' });
+    if (typeof score !== 'number') throw new HttpException(Code.BAD_REQUEST, { message: 'You must supply a score' });
     return { score, scorePosition };
   }
 }

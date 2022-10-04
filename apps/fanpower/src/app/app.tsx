@@ -1,25 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Home } from './pages/home';
+import { Game } from './pages/game';
 
 export const App = () => {
-  const [m, setMessage] = useState<any>({ message: '' });
-
-  useEffect(() => {
-    fetch('/api')
-      .then((r) => r.json())
-      .then(setMessage);
-  }, []);
-
   return (
     <>
-      <div style={{ textAlign: 'center' }}>
-        <h1>Welcome to fanpower!</h1>
-        <img
-          width="450"
-          src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png"
-          alt="Nx - Smart, Fast and Extensible Build System"
-        />
-      </div>
-      <div>{m.message}</div>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/:gameId" element={<Game />} />
+        </Routes>
+      </Router>
     </>
   );
 };
