@@ -4,6 +4,7 @@
     "jsx": "react-jsx",
     "allowJs": true,
     "esModuleInterop": true,
+    "strictPropertyInitialization": false,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
