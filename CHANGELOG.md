@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.4.1 (2022-10-04)
+
+- Fixed `FrameCell` bug
+
 ## 0.4.0 (2022-10-04)
 
 - Updated `FrameCell` component
