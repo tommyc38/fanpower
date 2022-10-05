@@ -156,7 +156,7 @@ export const Game = () => {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell style={{ minWidth: '150px' }} align="center">
+              <TableCell className={'stickyLeft'} style={{ minWidth: '150px' }} align="center">
                 Player
               </TableCell>
               {Array.from({ length: 10 }, (_, i) => (
@@ -164,13 +164,13 @@ export const Game = () => {
                   Frame {i + 1}{' '}
                 </TableCell>
               ))}
-              <TableCell>Score</TableCell>
+              <TableCell className={'stickyRight'}>Score</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {gameBoard.map((row) => (
               <TableRow key={row.player.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                <TableCell component="th" scope="row" style={{ fontWeight: 'bold' }}>
+                <TableCell className={'stickyLeft'} component="th" scope="row" style={{ fontWeight: 'bold' }}>
                   {row.player.name}
                 </TableCell>
 
@@ -180,7 +180,7 @@ export const Game = () => {
                   </TableCell>
                 ))}
 
-                <TableCell style={{ fontSize: '24px', fontWeight: 'bold' }} align="center">
+                <TableCell className={'stickyRight'} style={{ fontSize: '24px', fontWeight: 'bold' }} align="center">
                   {row.score}
                 </TableCell>
               </TableRow>

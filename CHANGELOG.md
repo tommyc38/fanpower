@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.5.0 (2022-10-05)
+
+- Added sticky columns to table
+
 ## 0.4.1 (2022-10-04)
 
 - Fixed `FrameCell` bug
