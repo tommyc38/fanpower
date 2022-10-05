@@ -92,8 +92,8 @@ const mapScores = (frame: Frame): ScoreType[] => {
       } else if (isStrike(frame)) {
         x = 'strike';
       } else {
-        x = scoreOne || '-';
-        y = scoreTwo || '-';
+        y = scoreOne || '-';
+        x = scoreTwo || '-';
       }
     } else {
       y = isStrike(frame) ? 'strike' : scoreOne || '-';
