@@ -89,8 +89,7 @@ export async function _patchGame(gameId: number, data: GameUpdateRequest): Promi
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
   });
-  const res = await response.json();
-  return res
+  return await response.json();
 }
 
 export const patchGame = (gameId: number, data: GameUpdateRequest): Observable<GameUpdateResponse> => {
