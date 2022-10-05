@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
 import { Box, Button, Paper, Stack, styled } from '@mui/material';
 import { createGame, createGamePlayers, patchGame } from '../services/game.service';
-import type { Game, Player } from '@fanpower/api-interfaces';
 import { switchMap, tap } from 'rxjs';
 import { useNavigate } from 'react-router-dom';
 import { PlayerNameForm } from '../components/player-names-form';
@@ -19,20 +18,15 @@ const Item = styled(Paper)(({ theme }) => ({
 export const Home = () => {
   const navigate = useNavigate();
   const [isLoadingS, setIsLoadingState] = useState(false);
-  const [players, setIsPlayerState] = useState<Player[]>([]);
-  const [game, setGameState] = useState<Game>({} as Game);
   const [playerCount, setPlayerCountState] = useState<number>();
 
   const handleStartGame = (params: GameAddPlayersRequest) => {
     setIsLoadingState(true);
     createGame({})
       .pipe(
-        tap((_game) => setGameState(_game)),
         switchMap((_game) => createGamePlayers(_game.id, params)),
-        tap((_players) => setIsPlayerState(_players)),
         switchMap((_players) => patchGame(_players[0].gameId, { status: 'inProgress' })),
         tap((_game) => {
-          setGameState(_game);
           setIsLoadingState(false);
           navigate(`/${_game.id}`);
         })

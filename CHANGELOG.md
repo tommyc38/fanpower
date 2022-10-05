@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.4.0 (2022-10-04)
+
+- Updated `FrameCell` component
+
 ## 0.3.0 (2022-10-04)
 
 - Added front end app

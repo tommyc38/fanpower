@@ -29,76 +29,10 @@ const Score = ({ score }: { score: ScoreType }) => {
 
 export const FrameCell = ({ frame }: { frame: Frame }) => {
   const { scoreOne, scoreTwo, scoreThree } = frame;
-  let x: ScoreType = null,
-    y: ScoreType = null,
-    z: ScoreType = null;
-
-  if (frame.frame < 10) {
-    if (typeof scoreOne === 'number' && typeof scoreTwo !== 'number') {
-      if(scoreOne === 10){
-        x = 'strike';
-      } else {
-        x = scoreOne === 0 ? '-': scoreOne;
-      }
-    }
-    else if (typeof scoreOne === 'number' && typeof scoreTwo === 'number') {
-      if(scoreOne === 10){
-        x = 'strike';
-      } else {
-        if (scoreOne + scoreTwo === 10) {
-          y = scoreOne === 0 ? '-': scoreOne;
-          x = 'spare';
-        } else {
-          x = scoreTwo === 0 ? '-' : scoreTwo;
-          y = scoreOne === 0 ? '-' : scoreOne;
-        }
-      }
-    }
-  } else {
-    if (typeof scoreOne === 'number' && typeof scoreTwo !== 'number' && typeof scoreThree !== 'number') {
-      if (scoreOne === 10) {
-        x = 'strike';
-      } else {
-        x = scoreOne === 0 ? '-' : scoreOne;
-      }
-    } else if (typeof scoreOne === 'number' && typeof scoreTwo == 'number' && typeof scoreThree !== 'number') {
-      if (scoreOne === 10) {
-        y = 'strike';
-        if (scoreTwo === 10) {
-          x = 'strike';
-        } else {
-          x = scoreTwo === 0 ? '-' : scoreTwo;
-        }
-      } else {
-        if (scoreOne + scoreTwo === 10) {
-          y = scoreOne === 0 ? '-': 0;
-          x = 'spare';
-        }
-      }
-    } else if (typeof scoreOne === 'number' && typeof scoreTwo == 'number' && typeof scoreThree === 'number') {
-      if(scoreOne === 10) {
-        z = 'strike';
-      } else {
-        z = scoreOne === 0 ? '-' : scoreOne;
-      }
-      if(scoreOne + scoreTwo === 10) {
-        y = 'spare'
-      } else {
-        y = scoreTwo === 0 ? '-' : scoreTwo;
-      }
-      if (scoreOne === 10 && scoreTwo === 10) {
-        y = 'strike';
-      }
-      if (scoreThree === 10 ) {
-        z = 'strike';
-      } else {
-        z = scoreThree === 0 ? '-' : scoreThree;
-      }
-    }
-  }
+  const [x, y, z] = mapScores(frame);
 
   const calcTotalScore = () => {
-    if (typeof frame.scoreOne === 'number') {
+    if (isNumber(frame, 'scoreOne')) {
       let score = 0;
       score += scoreOne ?? 0;
       score += scoreTwo ?? 0;
@@ -130,4 +64,67 @@ export const FrameCell = ({ frame }: { frame: Frame }) => {
       </Grid>
     </Grid>
   );
+};
+
+const mapScores = (frame: Frame): ScoreType[] => {
+  const { scoreOne, scoreTwo, scoreThree } = frame;
+  let x: ScoreType = null,
+    y: ScoreType = null,
+    z: ScoreType = null;
+  if (isNumber(frame, 'scoreThree')) {
+    if (frame.frame < 10) {
+      if (isStrike(frame)) {
+        x = 'strike';
+      } else {
+        y = scoreOne || '-';
+        x = 'spare';
+      }
+    } else {
+      z = isStrike(frame) ? 'strike' : scoreOne || '-';
+      y = isStrike(frame) && isStrike(frame, 'scoreTwo') ? 'strike' : isSpare(frame) ? 'spare' : scoreTwo || '-';
+      x = isStrike(frame, 'scoreThree') ? 'strike' : scoreThree || '-';
+    }
+  } else if (isNumber(frame, 'scoreTwo')) {
+    if (frame.frame < 10) {
+      if (isSpare(frame)) {
+        y = scoreOne || '-';
+        x = 'spare';
+      } else if (isStrike(frame)) {
+        x = 'strike';
+      } else {
+        x = scoreOne || '-';
+        y = scoreTwo || '-';
+      }
+    } else {
+      y = isStrike(frame) ? 'strike' : scoreOne || '-';
+      x = isStrike(frame) && isStrike(frame, 'scoreTwo') ? 'strike' : isSpare(frame) ? 'spare' : scoreTwo || '-';
+    }
+    return [x, y, z];
+  } else if (isNumber(frame, 'scoreOne')) {
+    x = isStrike(frame) ? 'strike' : scoreOne || '-';
+    return [x, y, z];
+  }
+  return [x, y, z];
+};
+
+const isNumber = (frame: Frame, frameField: keyof Pick<Frame, 'scoreOne' | 'scoreTwo' | 'scoreThree'>) => {
+  return typeof frame[frameField] === 'number';
+};
+
+const isSpare = (frame: Frame): boolean => {
+  if (typeof frame.scoreOne === 'number' && frame.scoreOne < 10) {
+    if (typeof frame.scoreTwo === 'number') {
+      if (frame.scoreOne + frame.scoreTwo === 10) {
+        return true;
+      }
+    }
+  }
+  return false;
+};
+
+const isStrike = (
+  frame: Frame,
+  frameField: keyof Pick<Frame, 'scoreOne' | 'scoreTwo' | 'scoreThree'> = 'scoreOne'
+): boolean => {
+  return typeof frame[frameField] === 'number' && frame[frameField] === 10;
 };

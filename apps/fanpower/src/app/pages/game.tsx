@@ -59,8 +59,8 @@ export const Game = () => {
     return score;
   };
 
-  // We transform the players and frames arrays into a better format
-  const boardInit = (players: Player[], frames: Frame[]): GamePlayer[] => {
+  // We transform the players and frames arrays into a better format: GamePlayer[]
+  const gameBoardInit = (players: Player[], frames: Frame[]): GamePlayer[] => {
     const values: GamePlayer[] = [];
     players.forEach((_player) => {
       const row = {} as GamePlayer;
@@ -94,7 +94,7 @@ export const Game = () => {
           tap(([players, frames]) => {
             setPlayersState(players);
             setFramesState(frames);
-            setGameBoardState(boardInit(players, frames));
+            setGameBoardState(gameBoardInit(players, frames));
             setActiveFrameState(getOpenFrame());
             setIsLoadingState(false);
           })
@@ -140,7 +140,7 @@ export const Game = () => {
           switchMap(() => getGameFrames(gameId)),
           tap((frames) => {
             setFramesState(frames);
-            setGameBoardState(boardInit(players, frames));
+            setGameBoardState(gameBoardInit(players, frames));
             setIsLoadingState(false);
             setUpdateScoreState(undefined);
             setActiveFrameState(getOpenFrame());
@@ -209,6 +209,7 @@ export const Game = () => {
             labelId="select-score"
             id="score"
             label="Score"
+            disabled={!activeFrame}
             value={`${updateScore ?? ''}`}
             onChange={handleChange}
           >
@@ -221,14 +222,12 @@ export const Game = () => {
         </FormControl>
         <Stack flexDirection="row" alignItems="space-between" width="100%" justifyContent="space-between">
           <Button onClick={() => navigate('/')}>New Game</Button>
-          <Button onClick={handleUpdateScore}>Submit</Button>
+          <Button disabled={!activeFrame} onClick={handleUpdateScore}>Submit</Button>
         </Stack>
       </Box>
     </div>
   );
 };
-
-// HELPERS
 
 const buildFramePatchRequest = (score: number, frames: Frame[]) => {
   const req = {} as any;

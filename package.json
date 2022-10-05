@@ -1,6 +1,6 @@
 {
   "name": "fanpower",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "license": "MIT",
   "scripts": {
     "start-backend": "nx run api:pg-up && nx run api:pg-init && nx serve api -c local",
